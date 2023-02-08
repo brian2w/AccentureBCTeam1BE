@@ -1,5 +1,9 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+## nltk is mainly involved with pre-processing
+
 
 data = [
     {
@@ -35,33 +39,53 @@ data = [
 
 def similar_algorithm(input):
     #Adding the input into list
+    all_criteria = [input]
     
-    sen = [input]
     #Adding acceptance criteria into list
     for i in data:
-        
-        sen.extend(i['acceptance_criteria'])
+        all_criteria.extend(i['acceptance_criteria'])
 
+    
+    new_sen = []
+    # Stripping the unnessary words
+    for e in all_criteria:
+        stop_words = set(stopwords.words("english"))
+        words = word_tokenize(e)
+        filter = []
+        for w in words: # loops through sentence and adds useful words to filtered sentence
+            if w not in stop_words:
+                filter.append(w)
+        new_sen.append(filter)
+
+    sen = []
+    # Joining the stripped lists to form sentences
+    for element in new_sen:
+        stripped = ' '.join(element)
+        sen.append(stripped)
     print(sen)
+
     #Write some lines to encode (sentences 0 and 2 are both ideltical):
     model = SentenceTransformer('bert-base-nli-mean-tokens')
     #Encoding:
     sen_embeddings = model.encode(sen)
     sen_embeddings.shape
 
-
     
     #let's calculate cosine similarity for sentence 0:
-    x = cosine_similarity(
+    result_cosine = cosine_similarity(
         [sen_embeddings[0]],
         sen_embeddings[1:]
     )
+    
+    # Formatting the percentage and getting the similarities that satisfy the threshold
     p = []
-    for i in x[0]:
-        p.append(float(i) * 100)
+    for i in result_cosine[0]:
+        n = float(i)*100
+        n = round(n,2)
+        if (n >= 75.00):
+            p.append(n)
     return p
 
 
 p = similar_algorithm("username and password")
 print(p)
-
