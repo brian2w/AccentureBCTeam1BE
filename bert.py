@@ -37,10 +37,10 @@ data = [
     }
 ]
 
-def similar_algorithm(input):
+def similar_algorithm(user_input):
     #Adding the input into list
-    all_criteria = [input]
-    
+    all_criteria = [user_input]
+
     #Adding acceptance criteria into list
     for i in data:
         all_criteria.extend(i['acceptance_criteria'])
@@ -57,6 +57,9 @@ def similar_algorithm(input):
                 filter.append(w)
         new_sen.append(filter)
 
+    print(new_sen)
+    print('\n')
+        
     sen = []
     # Joining the stripped lists to form sentences
     for element in new_sen:
@@ -82,8 +85,8 @@ def similar_algorithm(input):
     for i in result_cosine[0]:
         n = float(i)*100
         n = round(n,2)
-        if (n >= 75.00):
-            p.append(n)
+        #if (n >= 75.00):
+        p.append(n)
     return p
 
 
