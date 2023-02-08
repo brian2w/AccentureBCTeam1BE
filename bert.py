@@ -40,12 +40,15 @@ data = [
 def similar_algorithm(user_input):
     #Adding the input into list
     all_criteria = [user_input]
-
+    counter = -1
+    ids = {}
     #Adding acceptance criteria into list
     for i in data:
+        counter += len(i['acceptance_criteria'])
+        ids[i['id']] = counter
         all_criteria.extend(i['acceptance_criteria'])
 
-    
+    print(ids)
     new_sen = []
     # Stripping the unnessary words
     for e in all_criteria:
@@ -56,9 +59,6 @@ def similar_algorithm(user_input):
             if w not in stop_words:
                 filter.append(w)
         new_sen.append(filter)
-
-    print(new_sen)
-    print('\n')
         
     sen = []
     # Joining the stripped lists to form sentences
@@ -79,6 +79,8 @@ def similar_algorithm(user_input):
         [sen_embeddings[0]],
         sen_embeddings[1:]
     )
+
+    
     
     # Formatting the percentage and getting the similarities that satisfy the threshold
     p = []
@@ -87,8 +89,20 @@ def similar_algorithm(user_input):
         n = round(n,2)
         #if (n >= 75.00):
         p.append(n)
+
+    new_id = []
+    for num in p:
+        index = p.index(num)
+        for d in ids:
+            if index <= ids[d]:
+                new_id.append(d)
+                break
+    print(new_id)
     return p
 
 
 p = similar_algorithm("username and password")
 print(p)
+
+
+#1. passing in result_cosine which give a list of percentages
