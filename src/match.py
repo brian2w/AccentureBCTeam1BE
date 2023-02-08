@@ -10,11 +10,24 @@ tickets = open('data1.json')
 # returns JSON object as 
 # a dictionary
 data = json.load(tickets)
+
   
 # Iterating through the json
 # list
-for i in data['emp_details']:
-    print(i)
-  
-# Closing file
-f.close()
+counter = 0
+match = False
+
+matched_id = 4
+matched = false
+for obj in data:
+    print(obj["acceptance_criteria"])
+    if 
+
+    counter+= 1
+    
+    
+    
+# # Closing file
+print(counter)
+
+tickets.close()
