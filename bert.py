@@ -1,4 +1,5 @@
-#Write some lines to encode (sentences 0 and 2 are both ideltical):
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 
 data = [
     {
@@ -32,30 +33,35 @@ data = [
     }
 ]
 
-sen = ["User can enter their username and password in addition to email"]
+def similar_algorithm(input):
+    #Adding the input into list
+    
+    sen = [input]
+    #Adding acceptance criteria into list
+    for i in data:
+        
+        sen.extend(i['acceptance_criteria'])
 
-for i in data:
-    sen.extend(i['acceptance_criteria'])
+    print(sen)
+    #Write some lines to encode (sentences 0 and 2 are both ideltical):
+    model = SentenceTransformer('bert-base-nli-mean-tokens')
+    #Encoding:
+    sen_embeddings = model.encode(sen)
+    sen_embeddings.shape
 
 
+    
+    #let's calculate cosine similarity for sentence 0:
+    x = cosine_similarity(
+        [sen_embeddings[0]],
+        sen_embeddings[1:]
+    )
+    p = []
+    for i in x[0]:
+        p.append(float(i) * 100)
+    return p
 
-print(sen)
-from sentence_transformers import SentenceTransformer
-model = SentenceTransformer('bert-base-nli-mean-tokens')
-#Encoding:
-sen_embeddings = model.encode(sen)
-sen_embeddings.shape
 
-
-from sklearn.metrics.pairwise import cosine_similarity
-#let's calculate cosine similarity for sentence 0:
-x = cosine_similarity(
-    [sen_embeddings[0]],
-    sen_embeddings[1:]
-)
-p = []
-for i in x[0]:
-    p.append(float(i) * 100)
-
+p = similar_algorithm("username and password")
 print(p)
 
