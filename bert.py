@@ -10,30 +10,19 @@ data = [
       "id": 1,
       "title": "Implement login functionality",
       "description": "As a user, I want to be able to log in to the application so that I can access my account.",
-      "acceptance_criteria": [
-        "User can enter their username and password",
-        "System displays an error message if the login credentials are incorrect"
-      ]
+      "acceptance_criteria": "User can enter their username and password;System displays an error message if the login credentials are incorrect"
     },
     {
       "id": 2,
       "title": "Allow users to search for products",
       "description": "As a user, I want to be able to search for products in the application so that I can find what I am looking for.",
-      "acceptance_criteria": [
-        "User can enter a keyword in the search bar",
-        "System displays a list of relevant products based on the keyword",
-        "User can refine their search results using filters"
-      ]
+      "acceptance_criteria": "User can enter a keyword in the search bar;System displays a list of relevant products based on the keyword;User can refine their search results using filters"
     },
     {
       "id": 3,
       "title": "Add a shopping cart",
       "description": "As a user, I want to be able to add products to my shopping cart so that I can purchase multiple items at once.",
-      "acceptance_criteria": [
-        "User can add products to their cart from the product list or product details page",
-        "System displays a notification and updates the cart icon to reflect the number of items in the cart",
-        "User can view and edit the contents of their cart"
-      ]
+      "acceptance_criteria": "User can add products to their cart from the product list or product details page;System displays a notification and updates the cart icon to reflect the number of items in the cart;User can view and edit the contents of their cart"
     }
 ]
 
@@ -42,13 +31,14 @@ def similar_algorithm(user_input):
     all_criteria = [user_input]
     counter = -1
     ids = {}
+   
     #Adding acceptance criteria into list
     for i in data:
-        counter += len(i['acceptance_criteria'])
+        splitting = i['acceptance_criteria'].split(";")
+        counter += len(splitting)
         ids[i['id']] = counter
-        all_criteria.extend(i['acceptance_criteria'])
+        all_criteria.extend(splitting)
 
-    print(ids)
     new_sen = []
     # Stripping the unnessary words
     for e in all_criteria:
@@ -59,13 +49,13 @@ def similar_algorithm(user_input):
             if w not in stop_words:
                 filter.append(w)
         new_sen.append(filter)
+
         
     sen = []
     # Joining the stripped lists to form sentences
     for element in new_sen:
         stripped = ' '.join(element)
         sen.append(stripped)
-    print(sen)
 
     #Write some lines to encode (sentences 0 and 2 are both ideltical):
     model = SentenceTransformer('bert-base-nli-mean-tokens')
@@ -81,15 +71,15 @@ def similar_algorithm(user_input):
     )
 
     
-    
     # Formatting the percentage and getting the similarities that satisfy the threshold
     p = []
     for i in result_cosine[0]:
         n = float(i)*100
         n = round(n,2)
-        #if (n >= 75.00):
         p.append(n)
 
+
+    #Finding the tickets
     new_id = []
     for num in p:
         index = p.index(num)
@@ -98,11 +88,31 @@ def similar_algorithm(user_input):
                 new_id.append(d)
                 break
     print(new_id)
+
+    final_ticket = []
+    final_percentage = []
+    
+    # Filtering for 75% and above
+    for num in p:
+        index = p.index(num)
+        if (num >= 75):
+            for d in ids:
+                if index <= ids[d]:
+                    final_ticket.append(d)
+                    final_percentage.append(num)
+                    break
+
+    print(final_ticket)
+    print(final_percentage)
+
     return p
 
 
-p = similar_algorithm("username and password")
-print(p)
+
+
+p = similar_algorithm("User can add products to their cart from the product list or product details page")
+
 
 
 #1. passing in result_cosine which give a list of percentages
+# TFIDF
