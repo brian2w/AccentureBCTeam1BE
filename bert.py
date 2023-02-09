@@ -27,7 +27,7 @@ data = [
     }
 ]
 
-def similar_algorithm(user_input):
+def similar_algorithm(user_input,data):
     #Adding the input into list
     all_criteria = [user_input]
     counter = -1
@@ -99,35 +99,26 @@ def similar_algorithm(user_input):
         new_id[index] = -1
 
 
-   
-
     averages = get_average_of_scores(ticket_percent)
-    print(averages)
 
+    filter_percent = {}
+    for id in averages:
+        if (averages[id] >= 60.00):
+            filter_percent[id] = averages[id]
 
-
-    # final_ticket = []
-    # final_percentage = []
-    
-    # # Filtering for 75% and above
-    # for num in p:
-    #     index = p.index(num)
-    #     if (num >= 75):
-    #         for d in ids:
-    #             if index <= ids[d]:
-    #                 final_ticket.append(d)
-    #                 final_percentage.append(num)
-    #                 break
-
-    # print(final_ticket)
-    # print(final_percentage)
-
-    return p
+    result = []
+    for id in filter_percent:
+        data = {}
+        data["Similarity"] = str(filter_percent[id])
+        data["ID"] = str(id)
+        result.append(data)
+    return result
 
 
 
 
-p = similar_algorithm("User can add products to their cart from the product list or product details page")
+p = similar_algorithm("username and password",data)
+print(p)
 
 
 
