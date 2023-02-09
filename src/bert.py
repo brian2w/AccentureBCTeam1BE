@@ -3,29 +3,31 @@ from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from best import get_average_of_scores
+import nltk
+nltk.download()
 ## nltk is mainly involved with pre-processing
 
 
-data = [
-    {
-      "id": 1,
-      "title": "Implement login functionality",
-      "description": "As a user, I want to be able to log in to the application so that I can access my account.",
-      "acceptance_criteria": "User can enter their username and password;System displays an error message if the login credentials are incorrect"
-    },
-    {
-      "id": 2,
-      "title": "Allow users to search for products",
-      "description": "As a user, I want to be able to search for products in the application so that I can find what I am looking for.",
-      "acceptance_criteria": "User can enter a keyword in the search bar;System displays a list of relevant products based on the keyword;User can refine their search results using filters"
-    },
-    {
-      "id": 3,
-      "title": "Add a shopping cart",
-      "description": "As a user, I want to be able to add products to my shopping cart so that I can purchase multiple items at once.",
-      "acceptance_criteria": "User can add products to their cart from the product list or product details page;System displays a notification and updates the cart icon to reflect the number of items in the cart;User can view and edit the contents of their cart"
-    }
-]
+# data = [
+#     {
+#       "id": 1,
+#       "title": "Implement login functionality",
+#       "description": "As a user, I want to be able to log in to the application so that I can access my account.",
+#       "acceptance_criteria": "User can enter their username and password;System displays an error message if the login credentials are incorrect"
+#     },
+#     {
+#       "id": 2,
+#       "title": "Allow users to search for products",
+#       "description": "As a user, I want to be able to search for products in the application so that I can find what I am looking for.",
+#       "acceptance_criteria": "User can enter a keyword in the search bar;System displays a list of relevant products based on the keyword;User can refine their search results using filters"
+#     },
+#     {
+#       "id": 3,
+#       "title": "Add a shopping cart",
+#       "description": "As a user, I want to be able to add products to my shopping cart so that I can purchase multiple items at once.",
+#       "acceptance_criteria": "User can add products to their cart from the product list or product details page;System displays a notification and updates the cart icon to reflect the number of items in the cart;User can view and edit the contents of their cart"
+#     }
+# ]
 
 def similar_algorithm(user_input,data):
     #Adding the input into list
@@ -117,8 +119,8 @@ def similar_algorithm(user_input,data):
 
 
 
-p = similar_algorithm("username and password",data)
-print(p)
+# p = similar_algorithm("username and password",data)
+# print(p)
 
 
 
