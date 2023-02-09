@@ -2,6 +2,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from best import get_average_of_scores
 ## nltk is mainly involved with pre-processing
 
 
@@ -99,7 +100,9 @@ def similar_algorithm(user_input):
 
 
    
-    print(ticket_percent)
+
+    averages = get_average_of_scores(ticket_percent)
+    print(averages)
 
 
 
