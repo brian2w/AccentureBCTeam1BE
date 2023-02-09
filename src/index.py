@@ -1,11 +1,13 @@
 import os
-from flask import Flask, request, render_template, url_for, json
+from flask import Flask, request, render_template, url_for, json, jsonify
 import boto3
 from bert import similar_algorithm
 # import CORS from flask_cors
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 region = "ap-southeast-2"
 dynamodbTableName = "tickets"
@@ -25,13 +27,15 @@ def getAllTickets():
     
 
 @app.route("/sendTicket", methods=['POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def sendTicket():
-    # print(request.json)
+    print(request.json)
     # Extract JSON from the FE.
     reqTicket = request.json
 
     ticketDDBRes = ticketsDB.scan()
     ticketList = ticketDDBRes['Items']
+    print("reqTicket", reqTicket)
     
 
     print(reqTicket['description'], "frlksfjlsdjfds flksd")
@@ -46,5 +50,14 @@ def sendTicket():
         currTicket = ticketsDB.get_item(Key={'id': currId})
         currTicket['Item']['similarity'] = currSimilarity
         returnObjList.append(currTicket['Item'])
-    print("before", str(returnObjList))
-    return str(returnObjList)
+    print("start")
+    for val in returnObjList:
+        print(val)
+    print("end")
+    print("dumps")
+    print(json.dumps(returnObjList))
+    return jsonify({
+        'ok': True,
+        'msg': 'Success',
+        'data': returnObjList
+    })

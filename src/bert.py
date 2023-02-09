@@ -4,7 +4,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from best import get_average_of_scores
 import nltk
-nltk.download()
+nltk.download('stopwords')
+nltk.download('punkt')
 ## nltk is mainly involved with pre-processing
 
 
