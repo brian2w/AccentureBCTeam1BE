@@ -87,23 +87,38 @@ def similar_algorithm(user_input):
             if index <= ids[d]:
                 new_id.append(d)
                 break
-    print(new_id)
 
-    final_ticket = []
-    final_percentage = []
+    # Combining tickets and percentages
+    ticket_percent = {}
+    for ticket in new_id:
+        index = new_id.index(ticket)
+        if ticket in ticket_percent:
+            ticket_percent[ticket].append(p[index])
+        else:
+            ticket_percent[ticket] = [p[index]]
+        new_id[index] = -1
+
+
+   
+    print(ticket_percent)
+
+
+
+    # final_ticket = []
+    # final_percentage = []
     
-    # Filtering for 75% and above
-    for num in p:
-        index = p.index(num)
-        if (num >= 75):
-            for d in ids:
-                if index <= ids[d]:
-                    final_ticket.append(d)
-                    final_percentage.append(num)
-                    break
+    # # Filtering for 75% and above
+    # for num in p:
+    #     index = p.index(num)
+    #     if (num >= 75):
+    #         for d in ids:
+    #             if index <= ids[d]:
+    #                 final_ticket.append(d)
+    #                 final_percentage.append(num)
+    #                 break
 
-    print(final_ticket)
-    print(final_percentage)
+    # print(final_ticket)
+    # print(final_percentage)
 
     return p
 
