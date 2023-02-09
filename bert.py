@@ -32,15 +32,15 @@ def similar_algorithm(user_input):
     counter = -1
     ids = {}
    
-    #Adding acceptance criteria into list
+    #Splitting and adding acceptance criteria into list
     for i in data:
-        splitting = i['acceptance_criteria'].split(";")
-        counter += len(splitting)
+        splitting_criteria = i['acceptance_criteria'].split(";")
+        counter += len(splitting_criteria)
         ids[i['id']] = counter
-        all_criteria.extend(splitting)
+        all_criteria.extend(splitting_criteria)
 
-    new_sen = []
     # Stripping the unnessary words
+    new_sen = []
     for e in all_criteria:
         stop_words = set(stopwords.words("english"))
         words = word_tokenize(e)
@@ -75,7 +75,6 @@ def similar_algorithm(user_input):
     p = []
     for i in result_cosine[0]:
         n = float(i)*100
-        n = round(n,2)
         p.append(n)
 
 
